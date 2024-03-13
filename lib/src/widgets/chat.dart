@@ -12,6 +12,7 @@ import '../conditional/conditional.dart';
 import '../models/bubble_rtl_alignment.dart';
 import '../models/date_header.dart';
 import '../models/emoji_enlargement_behavior.dart';
+import '../models/message_alignment.dart';
 import '../models/message_spacer.dart';
 import '../models/preview_image.dart';
 import '../models/unread_header_data.dart';
@@ -41,6 +42,7 @@ class Chat extends StatefulWidget {
     this.avatarBuilder,
     this.bubbleBuilder,
     this.bubbleRtlAlignment = BubbleRtlAlignment.right,
+    this.messageAlignment,
     this.customBottomWidget,
     this.customDateHeaderText,
     this.customMessageBuilder,
@@ -121,6 +123,8 @@ class Chat extends StatefulWidget {
 
   /// See [Message.bubbleRtlAlignment].
   final BubbleRtlAlignment? bubbleRtlAlignment;
+
+  final MessageAlignment? messageAlignment;
 
   /// Allows you to replace the default Input widget e.g. if you want to create a channel view. If you're looking for the bottom widget added to the chat list, see [listBottomWidget] instead.
   final Widget? customBottomWidget;
@@ -483,6 +487,7 @@ class ChatState extends State<Chat> {
           avatarBuilder: widget.avatarBuilder,
           bubbleBuilder: widget.bubbleBuilder,
           bubbleRtlAlignment: widget.bubbleRtlAlignment,
+          messageAlignment: widget.messageAlignment,
           customMessageBuilder: widget.customMessageBuilder,
           customStatusBuilder: widget.customStatusBuilder,
           emojiEnlargementBehavior: widget.emojiEnlargementBehavior,

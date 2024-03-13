@@ -5,6 +5,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 import '../../conditional/conditional.dart';
 import '../../models/bubble_rtl_alignment.dart';
 import '../../models/emoji_enlargement_behavior.dart';
+import '../../models/message_alignment.dart';
 import '../../util.dart';
 import '../state/inherited_chat_theme.dart';
 import '../state/inherited_user.dart';
@@ -25,6 +26,7 @@ class Message extends StatelessWidget {
     this.avatarBuilder,
     this.bubbleBuilder,
     this.bubbleRtlAlignment,
+    this.messageAlignment,
     this.customMessageBuilder,
     this.customStatusBuilder,
     required this.emojiEnlargementBehavior,
@@ -79,6 +81,8 @@ class Message extends StatelessWidget {
   /// Determine the alignment of the bubble for RTL languages. Has no effect
   /// for the LTR languages.
   final BubbleRtlAlignment? bubbleRtlAlignment;
+
+  final MessageAlignment? messageAlignment;
 
   /// Build a custom message inside predefined bubble.
   final Widget Function(types.CustomMessage, {required int messageWidth})?
@@ -341,12 +345,18 @@ class Message extends StatelessWidget {
 
     return Container(
       alignment: bubbleRtlAlignment == BubbleRtlAlignment.left
-          ? currentUserIsAuthor
-              ? AlignmentDirectional.centerEnd
-              : AlignmentDirectional.centerStart
-          : currentUserIsAuthor
-              ? Alignment.centerRight
-              : Alignment.centerLeft,
+          ? (messageAlignment != null &&
+                  messageAlignment == MessageAlignment.left)
+              ? AlignmentDirectional.centerStart
+              : currentUserIsAuthor
+                  ? AlignmentDirectional.centerEnd
+                  : AlignmentDirectional.centerStart
+          : (messageAlignment != null &&
+                  messageAlignment == MessageAlignment.left)
+              ? Alignment.centerLeft
+              : currentUserIsAuthor
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
       margin: bubbleRtlAlignment == BubbleRtlAlignment.left
           ? EdgeInsetsDirectional.only(
               bottom: 4,
