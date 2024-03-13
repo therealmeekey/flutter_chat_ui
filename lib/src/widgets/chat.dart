@@ -51,6 +51,7 @@ class Chat extends StatefulWidget {
     this.dateHeaderBuilder,
     this.dateHeaderThreshold = 900000,
     this.dateIsUtc = false,
+    this.useMessageGroup = true,
     this.dateLocale,
     this.disableImageGallery,
     this.emojiEnlargementBehavior = EmojiEnlargementBehavior.multi,
@@ -145,6 +146,7 @@ class Chat extends StatefulWidget {
 
   /// Custom date header builder gives ability to customize date header widget.
   final Widget Function(DateHeader)? dateHeaderBuilder;
+  final bool useMessageGroup;
 
   /// Time (in ms) between two messages when we will render a date header.
   /// Default value is 15 minutes, 900000 ms. When time between two messages
@@ -180,7 +182,7 @@ class Chat extends StatefulWidget {
   /// is lower than this threshold, they will be visually grouped.
   final int groupMessagesThreshold;
 
-  /// See [Message.hideBackgroundOnEmojiMessages].
+  /// See [Message.hideBackgroundO nEmojiMessages].
   final bool hideBackgroundOnEmojiMessages;
 
   /// See [ImageGallery.options].
@@ -593,6 +595,7 @@ class ChatState extends State<Chat> {
         dateFormat: widget.dateFormat,
         dateHeaderThreshold: widget.dateHeaderThreshold,
         dateIsUtc: widget.dateIsUtc,
+        useMessageGroup: widget.useMessageGroup,
         dateLocale: widget.dateLocale,
         groupMessagesThreshold: widget.groupMessagesThreshold,
         lastReadMessageId: widget.scrollToUnreadOptions.lastReadMessageId,
