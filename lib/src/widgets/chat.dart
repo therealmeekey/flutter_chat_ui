@@ -12,6 +12,7 @@ import '../conditional/conditional.dart';
 import '../models/bubble_rtl_alignment.dart';
 import '../models/date_header.dart';
 import '../models/emoji_enlargement_behavior.dart';
+import '../models/message_alignment.dart';
 import '../models/message_spacer.dart';
 import '../models/preview_image.dart';
 import '../models/unread_header_data.dart';
@@ -41,6 +42,7 @@ class Chat extends StatefulWidget {
     this.avatarBuilder,
     this.bubbleBuilder,
     this.bubbleRtlAlignment = BubbleRtlAlignment.right,
+    this.messageAlignment,
     this.customBottomWidget,
     this.customDateHeaderText,
     this.customMessageBuilder,
@@ -49,6 +51,7 @@ class Chat extends StatefulWidget {
     this.dateHeaderBuilder,
     this.dateHeaderThreshold = 900000,
     this.dateIsUtc = false,
+    this.useMessageGroup = true,
     this.dateLocale,
     this.disableImageGallery,
     this.emojiEnlargementBehavior = EmojiEnlargementBehavior.multi,
@@ -122,6 +125,8 @@ class Chat extends StatefulWidget {
   /// See [Message.bubbleRtlAlignment].
   final BubbleRtlAlignment? bubbleRtlAlignment;
 
+  final MessageAlignment? messageAlignment;
+
   /// Allows you to replace the default Input widget e.g. if you want to create a channel view. If you're looking for the bottom widget added to the chat list, see [listBottomWidget] instead.
   final Widget? customBottomWidget;
 
@@ -141,6 +146,7 @@ class Chat extends StatefulWidget {
 
   /// Custom date header builder gives ability to customize date header widget.
   final Widget Function(DateHeader)? dateHeaderBuilder;
+  final bool useMessageGroup;
 
   /// Time (in ms) between two messages when we will render a date header.
   /// Default value is 15 minutes, 900000 ms. When time between two messages
@@ -176,7 +182,7 @@ class Chat extends StatefulWidget {
   /// is lower than this threshold, they will be visually grouped.
   final int groupMessagesThreshold;
 
-  /// See [Message.hideBackgroundOnEmojiMessages].
+  /// See [Message.hideBackgroundO nEmojiMessages].
   final bool hideBackgroundOnEmojiMessages;
 
   /// See [ImageGallery.options].
@@ -483,6 +489,7 @@ class ChatState extends State<Chat> {
           avatarBuilder: widget.avatarBuilder,
           bubbleBuilder: widget.bubbleBuilder,
           bubbleRtlAlignment: widget.bubbleRtlAlignment,
+          messageAlignment: widget.messageAlignment,
           customMessageBuilder: widget.customMessageBuilder,
           customStatusBuilder: widget.customStatusBuilder,
           emojiEnlargementBehavior: widget.emojiEnlargementBehavior,
@@ -588,6 +595,7 @@ class ChatState extends State<Chat> {
         dateFormat: widget.dateFormat,
         dateHeaderThreshold: widget.dateHeaderThreshold,
         dateIsUtc: widget.dateIsUtc,
+        useMessageGroup: widget.useMessageGroup,
         dateLocale: widget.dateLocale,
         groupMessagesThreshold: widget.groupMessagesThreshold,
         lastReadMessageId: widget.scrollToUnreadOptions.lastReadMessageId,

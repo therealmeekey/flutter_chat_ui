@@ -109,6 +109,7 @@ List<Object> calculateChatMessages(
   DateFormat? dateFormat,
   required int dateHeaderThreshold,
   bool dateIsUtc = false,
+  bool useMessageGroup = true,
   String? dateLocale,
   required int groupMessagesThreshold,
   String? lastReadMessageId,
@@ -173,9 +174,11 @@ List<Object> calculateChatMessages(
             isUtc: dateIsUtc,
           ).day;
 
-      nextMessageInGroup = nextMessageSameAuthor &&
-          message.id != lastReadMessageId &&
-          nextMessage.createdAt! - message.createdAt! <= groupMessagesThreshold;
+      nextMessageInGroup = useMessageGroup &&
+          (nextMessageSameAuthor &&
+              message.id != lastReadMessageId &&
+              nextMessage.createdAt! - message.createdAt! <=
+                  groupMessagesThreshold);
     }
 
     if (isFirst && messageHasCreatedAt) {
