@@ -269,7 +269,11 @@ class _ChatListState extends State<ChatList>
             if (widget.bottomWidget != null)
               SliverToBoxAdapter(child: widget.bottomWidget),
             SliverPadding(
-              padding: const EdgeInsets.only(bottom: 4),
+              padding: EdgeInsets.only(
+                bottom: widget.typingIndicatorOptions!.typingUsers.isNotEmpty
+                    ? 4
+                    : 0,
+              ),
               sliver: SliverToBoxAdapter(
                 child: (widget.typingIndicatorOptions!.typingUsers.isNotEmpty &&
                         !_indicatorOnScrollStatus)
@@ -295,29 +299,27 @@ class _ChatListState extends State<ChatList>
                     : const SizedBox.shrink(),
               ),
             ),
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 4),
-              sliver: SliverAnimatedList(
-                findChildIndexCallback: (Key key) {
-                  if (key is ValueKey<Object>) {
-                    final newIndex = widget.items.indexWhere(
-                      (v) => _valueKeyForItem(v) == key,
-                    );
-                    if (newIndex != -1) {
-                      return newIndex;
-                    }
+            SliverAnimatedList(
+              findChildIndexCallback: (Key key) {
+                if (key is ValueKey<Object>) {
+                  final newIndex = widget.items.indexWhere(
+                    (v) => _valueKeyForItem(v) == key,
+                  );
+                  if (newIndex != -1) {
+                    return newIndex;
                   }
-                  return null;
-                },
-                initialItemCount: widget.items.length,
-                key: _listKey,
-                itemBuilder: (_, index, animation) =>
-                    _newMessageBuilder(index, animation),
-              ),
+                }
+                return null;
+              },
+              initialItemCount: widget.items.length,
+              key: _listKey,
+              itemBuilder: (_, index, animation) =>
+                  _newMessageBuilder(index, animation),
             ),
             SliverPadding(
               padding: EdgeInsets.only(
-                top: 16 +
+                // top: 16 +
+                top: 0 +
                     (widget.useTopSafeAreaInset
                         ? MediaQuery.of(context).padding.top
                         : 0),
