@@ -296,7 +296,7 @@ class _ChatListState extends State<ChatList>
                                       .typingUsers.isNotEmpty &&
                                   !_indicatorOnScrollStatus),
                             ))
-                    : const SizedBox.shrink(),
+                    : const SliverToBoxAdapter(child: SizedBox.shrink()),
               ),
             ),
             SliverAnimatedList(
@@ -315,43 +315,6 @@ class _ChatListState extends State<ChatList>
               key: _listKey,
               itemBuilder: (_, index, animation) =>
                   _newMessageBuilder(index, animation),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(
-                // top: 16 +
-                top: 0 +
-                    (widget.useTopSafeAreaInset
-                        ? MediaQuery.of(context).padding.top
-                        : 0),
-              ),
-              sliver: SliverToBoxAdapter(
-                child: SizeTransition(
-                  axisAlignment: 1,
-                  sizeFactor: _animation,
-                  child: Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 32,
-                      width: 32,
-                      child: SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: _isNextPageLoading
-                            ? CircularProgressIndicator(
-                                backgroundColor: Colors.transparent,
-                                strokeWidth: 1.5,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  InheritedChatTheme.of(context)
-                                      .theme
-                                      .primaryColor,
-                                ),
-                              )
-                            : null,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
