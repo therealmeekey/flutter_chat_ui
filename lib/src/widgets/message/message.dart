@@ -27,6 +27,7 @@ class Message extends StatelessWidget {
     this.bubbleBuilder,
     this.bubbleRtlAlignment,
     this.messageAlignment,
+    this.customMessageMargin,
     this.customMessageBuilder,
     this.customStatusBuilder,
     required this.emojiEnlargementBehavior,
@@ -83,6 +84,7 @@ class Message extends StatelessWidget {
   final BubbleRtlAlignment? bubbleRtlAlignment;
 
   final MessageAlignment? messageAlignment;
+  final EdgeInsetsGeometry? customMessageMargin;
 
   /// Build a custom message inside predefined bubble.
   final Widget Function(types.CustomMessage, {required int messageWidth})?
@@ -357,17 +359,17 @@ class Message extends StatelessWidget {
               : currentUserIsAuthor
                   ? Alignment.centerRight
                   : Alignment.centerLeft,
-      margin: bubbleRtlAlignment == BubbleRtlAlignment.left
-          ? EdgeInsetsDirectional.only(
-              bottom: 4,
-              end: isMobile ? query.padding.right : 0,
-              start: 20 + (isMobile ? query.padding.left : 0),
-            )
-          : EdgeInsets.only(
-              bottom: 4,
-              left: 20 + (isMobile ? query.padding.left : 0),
-              right: isMobile ? query.padding.right : 0,
-            ),
+      margin: customMessageMargin ?? (bubbleRtlAlignment == BubbleRtlAlignment.left
+              ? EdgeInsetsDirectional.only(
+                  bottom: 4,
+                  end: isMobile ? query.padding.right : 0,
+                  start: 20 + (isMobile ? query.padding.left : 0),
+                )
+              : EdgeInsets.only(
+                  bottom: 4,
+                  left: 20 + (isMobile ? query.padding.left : 0),
+                  right: isMobile ? query.padding.right : 0,
+                )),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,

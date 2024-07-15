@@ -43,6 +43,7 @@ class Chat extends StatefulWidget {
     this.bubbleBuilder,
     this.bubbleRtlAlignment = BubbleRtlAlignment.right,
     this.messageAlignment,
+    this.customMessageMargin,
     this.customBottomWidget,
     this.customDateHeaderText,
     this.customMessageBuilder,
@@ -124,7 +125,7 @@ class Chat extends StatefulWidget {
 
   /// See [Message.bubbleRtlAlignment].
   final BubbleRtlAlignment? bubbleRtlAlignment;
-
+  final EdgeInsetsGeometry? customMessageMargin;
   final MessageAlignment? messageAlignment;
 
   /// Allows you to replace the default Input widget e.g. if you want to create a channel view. If you're looking for the bottom widget added to the chat list, see [listBottomWidget] instead.
@@ -490,6 +491,7 @@ class ChatState extends State<Chat> {
           bubbleBuilder: widget.bubbleBuilder,
           bubbleRtlAlignment: widget.bubbleRtlAlignment,
           messageAlignment: widget.messageAlignment,
+          customMessageMargin: widget.customMessageMargin,
           customMessageBuilder: widget.customMessageBuilder,
           customStatusBuilder: widget.customStatusBuilder,
           emojiEnlargementBehavior: widget.emojiEnlargementBehavior,
