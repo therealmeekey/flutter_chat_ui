@@ -260,102 +260,110 @@ class _ChatListState extends State<ChatList>
 
           return false;
         },
-        child: CustomScrollView(
+        child: Scrollbar(
+          thumbVisibility: true,
           controller: widget.scrollController,
-          keyboardDismissBehavior: widget.keyboardDismissBehavior,
-          physics: widget.scrollPhysics,
-          reverse: true,
-          slivers: [
-            if (widget.bottomWidget != null)
-              SliverToBoxAdapter(child: widget.bottomWidget),
-            SliverPadding(
-              padding: EdgeInsets.only(
-                bottom: widget.typingIndicatorOptions!.typingUsers.isNotEmpty
-                    ? 4
-                    : 0,
+          child: CustomScrollView(
+            controller: widget.scrollController,
+            keyboardDismissBehavior: widget.keyboardDismissBehavior,
+            physics: widget.scrollPhysics,
+            reverse: true,
+            slivers: [
+              if (widget.bottomWidget != null)
+                SliverToBoxAdapter(child: widget.bottomWidget),
+              SliverPadding(
+                padding: EdgeInsets.only(
+                  bottom: widget.typingIndicatorOptions!.typingUsers.isNotEmpty
+                      ? 4
+                      : 0,
+                ),
+                sliver: SliverToBoxAdapter(
+                  child:
+                      (widget.typingIndicatorOptions!.typingUsers.isNotEmpty &&
+                              !_indicatorOnScrollStatus)
+                          ? (widget.typingIndicatorOptions
+                                      ?.customTypingIndicatorBuilder !=
+                                  null
+                              ? widget.typingIndicatorOptions!
+                                  .customTypingIndicatorBuilder!(
+                                  context: context,
+                                  bubbleAlignment: widget.bubbleRtlAlignment,
+                                  options: widget.typingIndicatorOptions!,
+                                  indicatorOnScrollStatus:
+                                      _indicatorOnScrollStatus,
+                                )
+                              : widget.typingIndicatorOptions
+                                      ?.customTypingIndicator ??
+                                  TypingIndicator(
+                                    bubbleAlignment: widget.bubbleRtlAlignment,
+                                    options: widget.typingIndicatorOptions!,
+                                    showIndicator: (widget
+                                            .typingIndicatorOptions!
+                                            .typingUsers
+                                            .isNotEmpty &&
+                                        !_indicatorOnScrollStatus),
+                                  ))
+                          : const SizedBox.shrink(),
+                ),
               ),
-              sliver: SliverToBoxAdapter(
-                child: (widget.typingIndicatorOptions!.typingUsers.isNotEmpty &&
-                        !_indicatorOnScrollStatus)
-                    ? (widget.typingIndicatorOptions
-                                ?.customTypingIndicatorBuilder !=
-                            null
-                        ? widget.typingIndicatorOptions!
-                            .customTypingIndicatorBuilder!(
-                            context: context,
-                            bubbleAlignment: widget.bubbleRtlAlignment,
-                            options: widget.typingIndicatorOptions!,
-                            indicatorOnScrollStatus: _indicatorOnScrollStatus,
-                          )
-                        : widget.typingIndicatorOptions
-                                ?.customTypingIndicator ??
-                            TypingIndicator(
-                              bubbleAlignment: widget.bubbleRtlAlignment,
-                              options: widget.typingIndicatorOptions!,
-                              showIndicator: (widget.typingIndicatorOptions!
-                                      .typingUsers.isNotEmpty &&
-                                  !_indicatorOnScrollStatus),
-                            ))
-                    : const SizedBox.shrink(),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 4),
-              sliver: SliverAnimatedList(
-                findChildIndexCallback: (Key key) {
-                  if (key is ValueKey<Object>) {
-                    final newIndex = widget.items.indexWhere(
-                      (v) => _valueKeyForItem(v) == key,
-                    );
-                    if (newIndex != -1) {
-                      return newIndex;
+              SliverPadding(
+                padding: const EdgeInsets.only(bottom: 4),
+                sliver: SliverAnimatedList(
+                  findChildIndexCallback: (Key key) {
+                    if (key is ValueKey<Object>) {
+                      final newIndex = widget.items.indexWhere(
+                        (v) => _valueKeyForItem(v) == key,
+                      );
+                      if (newIndex != -1) {
+                        return newIndex;
+                      }
                     }
-                  }
-                  return null;
-                },
-                initialItemCount: widget.items.length,
-                key: _listKey,
-                itemBuilder: (_, index, animation) =>
-                    _newMessageBuilder(index, animation),
+                    return null;
+                  },
+                  initialItemCount: widget.items.length,
+                  key: _listKey,
+                  itemBuilder: (_, index, animation) =>
+                      _newMessageBuilder(index, animation),
+                ),
               ),
-            ),
-            SliverPadding(
-              padding: EdgeInsets.only(
-                top: 16 +
-                    (widget.useTopSafeAreaInset
-                        ? MediaQuery.of(context).padding.top
-                        : 0),
-              ),
-              sliver: SliverToBoxAdapter(
-                child: SizeTransition(
-                  axisAlignment: 1,
-                  sizeFactor: _animation,
-                  child: Center(
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 32,
-                      width: 32,
-                      child: SizedBox(
-                        height: 16,
-                        width: 16,
-                        child: _isNextPageLoading
-                            ? CircularProgressIndicator(
-                                backgroundColor: Colors.transparent,
-                                strokeWidth: 1.5,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  InheritedChatTheme.of(context)
-                                      .theme
-                                      .primaryColor,
-                                ),
-                              )
-                            : null,
+              SliverPadding(
+                padding: EdgeInsets.only(
+                  top: 16 +
+                      (widget.useTopSafeAreaInset
+                          ? MediaQuery.of(context).padding.top
+                          : 0),
+                ),
+                sliver: SliverToBoxAdapter(
+                  child: SizeTransition(
+                    axisAlignment: 1,
+                    sizeFactor: _animation,
+                    child: Center(
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 32,
+                        width: 32,
+                        child: SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: _isNextPageLoading
+                              ? CircularProgressIndicator(
+                                  backgroundColor: Colors.transparent,
+                                  strokeWidth: 1.5,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    InheritedChatTheme.of(context)
+                                        .theme
+                                        .primaryColor,
+                                  ),
+                                )
+                              : null,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
 }
