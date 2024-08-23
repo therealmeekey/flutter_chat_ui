@@ -621,10 +621,7 @@ class ChatState extends State<Chat> {
   }
 
   @override
-  Widget build(BuildContext context) => Scrollbar(
-  thumbVisibility: true,
-  controller: widget.scrollController,
-  child:  InheritedUser(
+  Widget build(BuildContext context) => InheritedUser(
         user: widget.user,
         child: InheritedChatTheme(
           theme: widget.theme,
@@ -700,7 +697,6 @@ class ChatState extends State<Chat> {
               ],
             ),
           ),
-        ),
         ),
       );
 }
