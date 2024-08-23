@@ -260,10 +260,7 @@ class _ChatListState extends State<ChatList>
 
           return false;
         },
-        child: Scrollbar(
-          thumbVisibility: true,
-          controller: widget.scrollController,
-          child: CustomScrollView(
+        child: CustomScrollView(
             controller: widget.scrollController,
             keyboardDismissBehavior: widget.keyboardDismissBehavior,
             physics: widget.scrollPhysics,
@@ -364,6 +361,5 @@ class _ChatListState extends State<ChatList>
               ),
             ],
           ),
-        ),
       );
 }
